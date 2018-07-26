@@ -20,4 +20,14 @@ public class CostWithExceed {
         this.price = price;
         this.exceed = exceed;
     }
+
+    @Override
+    public String toString() {
+        return "CostWithExceed{" +
+                "dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", exceed=" + exceed +
+                '}';
+    }
 }
