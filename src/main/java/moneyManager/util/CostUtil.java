@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Vladimir on 26.07.2018.
@@ -25,8 +26,16 @@ public class CostUtil {
         System.out.println(getFilteredWithExceeded(costList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
     }
 
-    public static List<CostWithExceed>  getFilteredWithExceeded(List<Cost> costs, LocalTime startTime, LocalTime endTime, int sumPerDay) {
-        // TODO return filtered list with correctly exceeded field
+    public static List<CostWithExceed> getFilteredWithExceeded(List<Cost> costs, LocalTime startTime, LocalTime endTime, int sumPerDay) {
+        Map<LocalDate, Integer> sumByDate = costs.stream().collect(Collectors.groupingBy(Cost::getDate, Collectors.summingInt(Cost::getPrice)));
+
+        return costs.stream()
+                .filter(cost -> TimeUtil.isBetween(cost.getTime(), startTime, endTime))
+                .map(cost -> createWithExceed(cost, sumByDate.get(cost.getDate()) > sumPerDay))
+                .collect(Collectors.toList());
+    }
+
+    public static List<CostWithExceed> getFilteredWithExceededByCycle(List<Cost> costs, LocalTime startTime, LocalTime endTime, int sumPerDay) {
         Map<LocalDate, Integer> sumByDate = new HashMap<>();
         costs.forEach(cost -> sumByDate.merge(cost.getDate(), cost.getPrice(), Integer::sum));
 
