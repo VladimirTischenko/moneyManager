@@ -21,6 +21,22 @@ public class CostWithExceed {
         this.exceed = exceed;
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public boolean isExceed() {
+        return exceed;
+    }
+
     @Override
     public String toString() {
         return "CostWithExceed{" +
