@@ -19,6 +19,7 @@
 <section>
     <h2><a href="index.html">Home</a></h2>
     <h2>Cost list</h2>
+    <a href="costs?action=create">Add Cost</a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -26,6 +27,8 @@
             <th>Date</th>
             <th>Description</th>
             <th>Price</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <c:forEach items="${costs}" var="cost">
@@ -38,6 +41,8 @@
                 </td>
                 <td>${cost.description}</td>
                 <td>${cost.price}</td>
+                <td><a href="costs?action=update&id=${cost.id}">Update</a></td>
+                <td><a href="costs?action=delete&id=${cost.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>

@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
  * Created by Vladimir on 26.07.2018.
  */
 public class CostWithExceed {
+    private final Integer id;
+
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -14,11 +16,16 @@ public class CostWithExceed {
 
     private final boolean exceed;
 
-    public CostWithExceed(LocalDateTime dateTime, String description, int price, boolean exceed) {
+    public CostWithExceed(Integer id, LocalDateTime dateTime, String description, int price, boolean exceed) {
+        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.price = price;
         this.exceed = exceed;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public LocalDateTime getDateTime() {
@@ -40,7 +47,8 @@ public class CostWithExceed {
     @Override
     public String toString() {
         return "CostWithExceed{" +
-                "dateTime=" + dateTime +
+                "id=" + id +
+                ", dateTime=" + dateTime +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", exceed=" + exceed +

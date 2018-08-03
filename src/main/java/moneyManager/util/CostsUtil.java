@@ -32,11 +32,11 @@ public class CostsUtil {
         System.out.println(getFilteredWithExceededByCycle(COSTS, LocalTime.of(7, 0), LocalTime.of(12, 0), DEFAULT_SUM_PER_DAY));
     }
 
-    public static List<CostWithExceed> getWithExceeded(List<Cost> costs, int sumPerDay) {
+    public static List<CostWithExceed> getWithExceeded(Collection<Cost> costs, int sumPerDay) {
         return getFilteredWithExceeded(costs, LocalTime.MIN, LocalTime.MAX, sumPerDay);
     }
 
-    public static List<CostWithExceed> getFilteredWithExceeded(List<Cost> costs, LocalTime startTime, LocalTime endTime, int sumPerDay) {
+    public static List<CostWithExceed> getFilteredWithExceeded(Collection<Cost> costs, LocalTime startTime, LocalTime endTime, int sumPerDay) {
         Map<LocalDate, Integer> sumByDate = costs.stream().collect(Collectors.groupingBy(Cost::getDate, Collectors.summingInt(Cost::getPrice)));
 
         return costs.stream()
@@ -60,6 +60,6 @@ public class CostsUtil {
     }
 
     private static CostWithExceed createWithExceed(Cost cost, boolean exceeded) {
-        return new CostWithExceed(cost.getDateTime(), cost.getDescription(), cost.getPrice(), exceeded);
+        return new CostWithExceed(cost.getId(), cost.getDateTime(), cost.getDescription(), cost.getPrice(), exceeded);
     }
 }
