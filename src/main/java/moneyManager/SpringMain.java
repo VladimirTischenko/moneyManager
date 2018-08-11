@@ -2,8 +2,7 @@ package moneyManager;
 
 import moneyManager.model.Role;
 import moneyManager.model.User;
-import moneyManager.repository.UserRepository;
-import moneyManager.service.UserService;
+import moneyManager.web.user.AdminRestController;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -14,16 +13,11 @@ import java.util.Arrays;
  */
 public class SpringMain {
     public static void main(String[] args) {
-        ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
-        System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
-
-//        UserRepository userRepository = (UserRepository) appCtx.getBean("mockUserRepository");
-        UserRepository userRepository = appCtx.getBean(UserRepository.class);
-        userRepository.getAll();
-
-        UserService userService = appCtx.getBean(UserService.class);
-        userService.save(new User(1, "userName", "email", "password", Role.ROLE_ADMIN));
-
-        appCtx.close();
+        // java 7 Automatic resource management
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
+            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
+            AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
+            adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN));
+        }
     }
 }

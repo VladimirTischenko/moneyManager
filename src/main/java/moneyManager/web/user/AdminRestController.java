@@ -1,12 +1,14 @@
 package moneyManager.web.user;
 
 import moneyManager.model.User;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 /**
  * Created by Vladimir on 09.08.2018.
  */
+@Controller
 public class AdminRestController extends AbstractUserController{
     @Override
     public List<User> getAll() {

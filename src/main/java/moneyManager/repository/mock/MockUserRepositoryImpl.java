@@ -4,6 +4,7 @@ import moneyManager.model.User;
 import moneyManager.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by Vladimir on 11.08.2018.
  */
+@Repository
 public class MockUserRepositoryImpl implements UserRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MockUserRepositoryImpl.class);
 
