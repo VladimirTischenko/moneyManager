@@ -2,17 +2,25 @@ package moneyManager.repository;
 
 import moneyManager.model.Cost;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
  * Created by Vladimir on 03.08.2018.
  */
 public interface CostRepository {
-    Cost save(Cost cost);
+    // null if updated cost do not belong to userId
+    Cost save(Cost cost, int userId);
 
-    void delete(int id);
+    // false if cost do not belong to userId
+    boolean delete(int id, int userId);
 
-    Cost get(int id);
+    // null if cost do not belong to userId
+    Cost get(int id, int userId);
 
-    Collection<Cost> getAll();
+    // ORDERED dateTime
+    Collection<Cost> getAll(int userId);
+
+    // ORDERED dateTime
+    Collection<Cost> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
 }

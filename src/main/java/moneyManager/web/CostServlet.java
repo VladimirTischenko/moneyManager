@@ -1,5 +1,6 @@
 package moneyManager.web;
 
+import moneyManager.AuthorizedUser;
 import moneyManager.model.Cost;
 import moneyManager.repository.CostRepository;
 import moneyManager.repository.mock.InMemoryCostRepositoryImpl;
@@ -42,7 +43,7 @@ public class CostServlet extends HttpServlet {
                 Integer.valueOf(request.getParameter("price")));
 
         LOG.info(cost.isNew() ? "Create {}" : "Update {}", cost);
-        repository.save(cost);
+        repository.save(cost, AuthorizedUser.id());
         response.sendRedirect("costs");
     }
 
@@ -52,18 +53,18 @@ public class CostServlet extends HttpServlet {
 
         if (action == null) {
             LOG.info("getAll");
-            request.setAttribute("costs", CostsUtil.getWithExceeded(repository.getAll(), CostsUtil.DEFAULT_SUM_PER_DAY));
+            request.setAttribute("costs", CostsUtil.getWithExceeded(repository.getAll(AuthorizedUser.id()), CostsUtil.DEFAULT_SUM_PER_DAY));
             request.getRequestDispatcher("/costs.jsp").forward(request, response);
         } else if ("delete".equals(action)) {
             int id = getId(request);
             LOG.info("Delete {}", id);
-            repository.delete(id);
+            repository.delete(id, AuthorizedUser.id());
             response.sendRedirect("costs");
 
         } else if ("create".equals(action) || "update".equals(action)) {
             final Cost cost = action.equals("create") ?
                     new Cost(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                    repository.get(getId(request));
+                    repository.get(getId(request), AuthorizedUser.id());
             request.setAttribute("cost", cost);
             request.getRequestDispatcher("cost.jsp").forward(request, response);
         }
