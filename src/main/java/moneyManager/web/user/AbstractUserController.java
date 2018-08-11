@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static moneyManager.util.ValidationUtil.checkIdConsistent;
+import static moneyManager.util.ValidationUtil.checkNew;
+
 /**
  * Created by Vladimir on 09.08.2018.
  */
@@ -28,7 +31,7 @@ public class AbstractUserController {
     }
 
     public User create(User user) {
-        user.setId(null);
+        checkNew(user);
         LOG.info("create " + user);
         return service.save(user);
     }
@@ -39,7 +42,7 @@ public class AbstractUserController {
     }
 
     public void update(User user, int id) {
-        user.setId(id);
+        checkIdConsistent(user, id);
         LOG.info("update " + user);
         service.update(user);
     }
