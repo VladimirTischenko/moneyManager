@@ -1,6 +1,7 @@
-package moneyManager.repository;
+package moneyManager.repository.mock;
 
 import moneyManager.model.Cost;
+import moneyManager.repository.CostRepository;
 import moneyManager.util.CostsUtil;
 
 import java.util.Collection;

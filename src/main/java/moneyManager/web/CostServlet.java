@@ -2,7 +2,7 @@ package moneyManager.web;
 
 import moneyManager.model.Cost;
 import moneyManager.repository.CostRepository;
-import moneyManager.repository.InMemoryCostRepositoryImpl;
+import moneyManager.repository.mock.InMemoryCostRepositoryImpl;
 import moneyManager.util.CostsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
