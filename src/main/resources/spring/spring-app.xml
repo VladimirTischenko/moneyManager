@@ -4,4 +4,7 @@
 
     <bean class="moneyManager.repository.mock.MockUserRepositoryImpl" id="mockUserRepository"/>
 
+    <bean class="moneyManager.service.UserServiceImpl">
+        <property name="repository" ref="mockUserRepository"/>
+    </bean>
 </beans>
