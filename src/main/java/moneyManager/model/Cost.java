@@ -7,9 +7,7 @@ import java.time.LocalTime;
 /**
  * Created by Vladimir on 26.07.2018.
  */
-public class Cost {
-    private Integer id;
-
+public class Cost extends BaseEntity {
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -21,18 +19,10 @@ public class Cost {
     }
 
     public Cost(Integer id, LocalDateTime dateTime, String description, int price) {
-        this.id = id;
+        super(id);
         this.dateTime = dateTime;
         this.description = description;
         this.price = price;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public LocalDateTime getDateTime() {
@@ -53,10 +43,6 @@ public class Cost {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
-    }
-
-    public boolean isNew() {
-        return id == null;
     }
 
     @Override

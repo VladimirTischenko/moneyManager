@@ -4,6 +4,7 @@ import moneyManager.model.Cost;
 import moneyManager.repository.CostRepository;
 import moneyManager.util.CostsUtil;
 import moneyManager.util.DateTimeUtil;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -22,6 +23,7 @@ import static moneyManager.repository.mock.InMemoryUserRepositoryImpl.USER_ID;
 /**
  * Created by Vladimir on 03.08.2018.
  */
+@Repository
 public class InMemoryCostRepositoryImpl implements CostRepository {
     private static final Comparator<Cost> COST_COMPARATOR = Comparator.comparing(Cost::getDateTime).reversed();
 

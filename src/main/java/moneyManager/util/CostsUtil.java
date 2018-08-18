@@ -1,7 +1,7 @@
 package moneyManager.util;
 
 import moneyManager.model.Cost;
-import moneyManager.model.CostWithExceed;
+import moneyManager.to.CostWithExceed;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

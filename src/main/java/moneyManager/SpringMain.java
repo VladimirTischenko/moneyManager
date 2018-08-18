@@ -2,11 +2,17 @@ package moneyManager;
 
 import moneyManager.model.Role;
 import moneyManager.model.User;
+import moneyManager.to.CostWithExceed;
+import moneyManager.web.cost.CostRestController;
 import moneyManager.web.user.AdminRestController;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Vladimir on 11.08.2018.
@@ -18,6 +24,13 @@ public class SpringMain {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
+            System.out.println();
+
+            CostRestController controller = appCtx.getBean(CostRestController.class);
+            List<CostWithExceed> costsWithExceed = controller.getBetween(
+                    LocalDate.of(2015, Month.MAY, 30), LocalTime.of(7, 0),
+                    LocalDate.of(2015, Month.MAY, 31), LocalTime.of(11, 0));
+            costsWithExceed.forEach(System.out::println);
         }
     }
 }

@@ -32,7 +32,7 @@
         </tr>
         </thead>
         <c:forEach items="${costs}" var="cost">
-            <jsp:useBean id="cost" scope="page" type="moneyManager.model.CostWithExceed"/>
+            <jsp:useBean id="cost" scope="page" type="moneyManager.to.CostWithExceed"/>
             <tr class="${cost.exceed ? 'exceeded' : 'normal'}">
                 <td>
                         <%--${cost.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>

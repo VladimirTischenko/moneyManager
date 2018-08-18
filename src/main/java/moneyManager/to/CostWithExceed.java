@@ -1,4 +1,4 @@
-package moneyManager.model;
+package moneyManager.to;
 
 import java.time.LocalDateTime;
 
