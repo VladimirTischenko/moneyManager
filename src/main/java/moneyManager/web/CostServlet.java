@@ -1,12 +1,11 @@
 package moneyManager.web;
 
-import moneyManager.AuthorizedUser;
 import moneyManager.model.Cost;
-import moneyManager.repository.CostRepository;
-import moneyManager.repository.mock.InMemoryCostRepositoryImpl;
-import moneyManager.util.CostsUtil;
+import moneyManager.web.cost.CostRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,12 +23,20 @@ import java.util.Objects;
 public class CostServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(CostServlet.class);
 
-    private CostRepository repository;
+    private ConfigurableApplicationContext springContext;
+    private CostRestController costController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        repository = new InMemoryCostRepositoryImpl();
+        springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        costController = springContext.getBean(CostRestController.class);
+    }
+
+    @Override
+    public void destroy() {
+        springContext.close();
+        super.destroy();
     }
 
     @Override
@@ -37,13 +44,18 @@ public class CostServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
 
-        Cost cost = new Cost(id.isEmpty() ? null : Integer.valueOf(id),
+        final Cost cost = new Cost(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.valueOf(request.getParameter("price")));
 
-        LOG.info(cost.isNew() ? "Create {}" : "Update {}", cost);
-        repository.save(cost, AuthorizedUser.id());
+        if (cost.isNew()){
+            LOG.info("Create {}", cost);
+            costController.create(cost);
+        } else {
+            LOG.info("Create {}", cost);
+            costController.update(cost, getId(request));
+        }
         response.sendRedirect("costs");
     }
 
@@ -53,18 +65,18 @@ public class CostServlet extends HttpServlet {
 
         if (action == null) {
             LOG.info("getAll");
-            request.setAttribute("costs", CostsUtil.getWithExceeded(repository.getAll(AuthorizedUser.id()), CostsUtil.DEFAULT_SUM_PER_DAY));
+            request.setAttribute("costs", costController.getAll());
             request.getRequestDispatcher("/costs.jsp").forward(request, response);
         } else if ("delete".equals(action)) {
             int id = getId(request);
             LOG.info("Delete {}", id);
-            repository.delete(id, AuthorizedUser.id());
+            costController.delete(id);
             response.sendRedirect("costs");
 
         } else if ("create".equals(action) || "update".equals(action)) {
             final Cost cost = action.equals("create") ?
                     new Cost(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                    repository.get(getId(request), AuthorizedUser.id());
+                    costController.get(getId(request));
             request.setAttribute("cost", cost);
             request.getRequestDispatcher("cost.jsp").forward(request, response);
         }

@@ -28,8 +28,8 @@ public class SpringMain {
 
             CostRestController controller = appCtx.getBean(CostRestController.class);
             List<CostWithExceed> costsWithExceed = controller.getBetween(
-                    LocalDate.of(2015, Month.MAY, 30), LocalTime.of(7, 0),
-                    LocalDate.of(2015, Month.MAY, 31), LocalTime.of(11, 0));
+                    LocalDate.of(2018, Month.JULY, 21), LocalTime.of(7, 0),
+                    LocalDate.of(2018, Month.JULY, 22), LocalTime.of(12, 0));
             costsWithExceed.forEach(System.out::println);
         }
     }
