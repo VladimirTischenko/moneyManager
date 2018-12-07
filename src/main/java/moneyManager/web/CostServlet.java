@@ -1,6 +1,7 @@
 package moneyManager.web;
 
 import moneyManager.model.Cost;
+import moneyManager.util.DateTimeUtil;
 import moneyManager.web.cost.CostRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -42,21 +45,29 @@ public class CostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
+        String action = request.getParameter("action");
+        if (action == null) {
+            final Cost cost = new Cost(
+                    LocalDateTime.parse(request.getParameter("dateTime")),
+                    request.getParameter("description"),
+                    Integer.valueOf(request.getParameter("price")));
 
-        final Cost cost = new Cost(id.isEmpty() ? null : Integer.valueOf(id),
-                LocalDateTime.parse(request.getParameter("dateTime")),
-                request.getParameter("description"),
-                Integer.valueOf(request.getParameter("price")));
-
-        if (cost.isNew()){
-            LOG.info("Create {}", cost);
-            costController.create(cost);
-        } else {
-            LOG.info("Create {}", cost);
-            costController.update(cost, getId(request));
+            if (request.getParameter("id").isEmpty()) {
+                LOG.info("Create {}", cost);
+                costController.create(cost);
+            } else {
+                LOG.info("Create {}", cost);
+                costController.update(cost, getId(request));
+            }
+            response.sendRedirect("costs");
+        } else if ("filter".equals(action)) {
+            LocalDate startDate = DateTimeUtil.parseLocalDate(request.getParameter("startDate"));
+            LocalDate endDate = DateTimeUtil.parseLocalDate(request.getParameter("endDate"));
+            LocalTime startTime = DateTimeUtil.parseLocalTime(request.getParameter("startTime"));
+            LocalTime endTime = DateTimeUtil.parseLocalTime(request.getParameter("endTime"));
+            request.setAttribute("costs", costController.getBetween(startDate, startTime, endDate, endTime));
+            request.getRequestDispatcher("/costs.jsp").forward(request, response);
         }
-        response.sendRedirect("costs");
     }
 
     @Override
