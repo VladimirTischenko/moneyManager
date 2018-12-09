@@ -7,9 +7,13 @@
 <body>
 <h3>Проект <a href="https://github.com/VladimirTischenko/moneyManager" target="_blank">Java Enterprise (Money Management)</a></h3>
 <hr>
-<ul>
-    <li><a href="users">User List</a></li>
-    <li><a href="costs">Cost List</a></li>
-</ul>
+<form method="post" action="users">
+    <b>Cost List of&nbsp;</b>
+    <select name="userId">
+        <option value="1">User</option>
+        <option value="2">Admin</option>
+    </select>
+    <button type="submit">Select</button>
+</form>
 </body>
 </html>

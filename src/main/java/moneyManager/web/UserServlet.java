@@ -1,5 +1,6 @@
 package moneyManager.web;
 
+import moneyManager.AuthorizedUser;
 import org.slf4j.Logger;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,12 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class UserServlet extends HttpServlet {
     private static final Logger LOG = getLogger(UserServlet.class);
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int userId = Integer.valueOf(request.getParameter("userId"));
+        AuthorizedUser.setId(userId);
+        response.sendRedirect("costs");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
