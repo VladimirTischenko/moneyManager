@@ -17,8 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static moneyManager.repository.mock.InMemoryUserRepositoryImpl.ADMIN_ID;
-import static moneyManager.repository.mock.InMemoryUserRepositoryImpl.USER_ID;
+import static moneyManager.UserTestData.ADMIN_ID;
+import static moneyManager.UserTestData.USER_ID;
 
 /**
  * Created by Vladimir on 03.08.2018.
