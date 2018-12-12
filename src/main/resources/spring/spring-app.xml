@@ -14,7 +14,7 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="**.repository"/>
+    <context:component-scan base-package="**.repository.jdbc"/>
 
     <context:component-scan base-package="**.service"/>
 
