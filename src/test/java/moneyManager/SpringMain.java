@@ -1,5 +1,7 @@
 package moneyManager;
 
+import moneyManager.model.Role;
+import moneyManager.model.User;
 import moneyManager.to.CostWithExceed;
 import moneyManager.web.cost.CostRestController;
 import moneyManager.web.user.AdminRestController;
@@ -21,7 +23,7 @@ public class SpringMain {
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
-            adminUserController.create(UserTestData.USER);
+            adminUserController.create(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
             System.out.println();
 
             CostRestController controller = appCtx.getBean(CostRestController.class);

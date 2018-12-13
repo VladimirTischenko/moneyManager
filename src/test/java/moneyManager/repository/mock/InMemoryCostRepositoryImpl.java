@@ -42,12 +42,12 @@ public class InMemoryCostRepositoryImpl implements CostRepository {
     public Cost save(Cost cost, int userId) {
         Objects.requireNonNull(cost);
 
-        Map<Integer, Cost> costs = repository.computeIfAbsent(userId, ConcurrentHashMap::new);
         if (cost.isNew()) {
             cost.setId(counter.incrementAndGet());
         } else if (get(cost.getId(), userId) == null) {
             return null;
         }
+        Map<Integer, Cost> costs = repository.computeIfAbsent(userId, ConcurrentHashMap::new);
         costs.put(cost.getId(), cost);
         return cost;
     }
