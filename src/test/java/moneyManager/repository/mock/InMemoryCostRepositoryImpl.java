@@ -2,12 +2,10 @@ package moneyManager.repository.mock;
 
 import moneyManager.model.Cost;
 import moneyManager.repository.CostRepository;
-import moneyManager.util.CostsUtil;
 import moneyManager.util.DateTimeUtil;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
@@ -16,9 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static moneyManager.UserTestData.ADMIN_ID;
-import static moneyManager.UserTestData.USER_ID;
 
 /**
  * Created by Vladimir on 03.08.2018.
@@ -30,13 +25,6 @@ public class InMemoryCostRepositoryImpl implements CostRepository {
     // Map  userId -> (costId-> cost)
     private Map<Integer, Map<Integer, Cost>> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
-
-    {
-        CostsUtil.COSTS.forEach(c -> save(c, USER_ID));
-
-        save(new Cost(LocalDateTime.of(2018, Month.AUGUST, 11, 11, 0), "fat", 150), ADMIN_ID);
-        save(new Cost(LocalDateTime.of(2018, Month.AUGUST, 11, 11, 30), "tea tree oil", 100), ADMIN_ID);
-    }
 
     @Override
     public Cost save(Cost cost, int userId) {

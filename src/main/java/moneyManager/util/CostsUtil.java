@@ -4,9 +4,7 @@ import moneyManager.model.Cost;
 import moneyManager.to.CostWithExceed;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,23 +12,7 @@ import java.util.stream.Collectors;
  * Created by Vladimir on 26.07.2018.
  */
 public class CostsUtil {
-    public static final List<Cost> COSTS = Arrays.asList(
-            new Cost(LocalDateTime.of(2018, Month.JULY, 21,10,0), "Продукты", 800),
-            new Cost(LocalDateTime.of(2018, Month.JULY, 21,13,0), "Продукты", 100),
-            new Cost(LocalDateTime.of(2018, Month.JULY, 22,11,30), "Кафе", 150),
-            new Cost(LocalDateTime.of(2018, Month.JULY, 22,15,30), "Продукты", 70),
-            new Cost(LocalDateTime.of(2018, Month.JULY, 22,17,0), "Аренда жилья", 15000),
-            new Cost(LocalDateTime.of(2018, Month.JULY, 25,19,0), "Продукты", 450)
-    );
-
     public static final int DEFAULT_SUM_PER_DAY = 2000;
-
-    public static void main(String[] args) {
-        List<CostWithExceed> costsWithExceeded = getFilteredWithExceeded(COSTS, LocalTime.of(7, 0), LocalTime.of(12, 0), DEFAULT_SUM_PER_DAY);
-        costsWithExceeded.forEach(System.out::println);
-
-        System.out.println(getFilteredWithExceededByCycle(COSTS, LocalTime.of(7, 0), LocalTime.of(12, 0), DEFAULT_SUM_PER_DAY));
-    }
 
     public static List<CostWithExceed> getWithExceeded(Collection<Cost> costs, int sumPerDay) {
         return getFilteredWithExceeded(costs, LocalTime.MIN, LocalTime.MAX, sumPerDay);
