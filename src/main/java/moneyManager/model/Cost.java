@@ -8,11 +8,14 @@ import java.time.LocalTime;
  * Created by Vladimir on 26.07.2018.
  */
 public class Cost extends BaseEntity {
-    private final LocalDateTime dateTime;
+    private LocalDateTime dateTime;
 
-    private final String description;
+    private String description;
 
-    private final int price;
+    private int price;
+
+    public Cost() {
+    }
 
     public Cost(LocalDateTime dateTime, String description, int price) {
         this(null, dateTime, description, price);
@@ -43,6 +46,18 @@ public class Cost extends BaseEntity {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     @Override
