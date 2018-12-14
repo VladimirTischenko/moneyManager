@@ -85,7 +85,7 @@ public class CostServlet extends HttpServlet {
             response.sendRedirect("costs");
 
         } else if ("create".equals(action) || "update".equals(action)) {
-            final Cost cost = action.equals("create") ?
+            final Cost cost = "create".equals(action) ?
                     new Cost(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
                     costController.get(getId(request));
             request.setAttribute("cost", cost);

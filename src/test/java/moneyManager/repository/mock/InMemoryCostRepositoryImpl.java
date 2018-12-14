@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -28,8 +27,6 @@ public class InMemoryCostRepositoryImpl implements CostRepository {
 
     @Override
     public Cost save(Cost cost, int userId) {
-        Objects.requireNonNull(cost);
-
         if (cost.isNew()) {
             cost.setId(counter.incrementAndGet());
         } else if (get(cost.getId(), userId) == null) {
@@ -59,8 +56,6 @@ public class InMemoryCostRepositoryImpl implements CostRepository {
 
     @Override
     public Collection<Cost> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        Objects.requireNonNull(startDateTime);
-        Objects.requireNonNull(endDateTime);
         return getAllAsStream(userId)
                 .filter(c -> DateTimeUtil.isBetween(c.getDateTime(), startDateTime, endDateTime))
                 .collect(Collectors.toList());

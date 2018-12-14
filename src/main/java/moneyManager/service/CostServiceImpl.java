@@ -4,6 +4,7 @@ import moneyManager.model.Cost;
 import moneyManager.repository.CostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -30,6 +31,8 @@ public class CostServiceImpl implements CostService {
 
     @Override
     public Collection<Cost> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+        Assert.notNull(startDateTime, "startDateTime must not be null");
+        Assert.notNull(endDateTime, "endDateTime  must not be null");
         return repository.getBetween(startDateTime, endDateTime, userId);
     }
 
@@ -40,11 +43,13 @@ public class CostServiceImpl implements CostService {
 
     @Override
     public Cost update(Cost cost, int userId) {
+        Assert.notNull(cost, "cost must not be null");
         return checkNotFoundWithId(repository.save(cost, userId), cost.getId());
     }
 
     @Override
     public Cost save(Cost cost, int userId) {
+        Assert.notNull(cost, "cost must not be null");
         return repository.save(cost, userId);
     }
 }

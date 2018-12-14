@@ -7,6 +7,9 @@ import moneyManager.util.exception.NotFoundException;
  * Created by Vladimir on 09.08.2018.
  */
 public class ValidationUtil {
+    private ValidationUtil() {
+    }
+
     public static void checkNotFoundWithId(boolean found, int id) {
         checkNotFound(found, "id=" + id);
     }
@@ -21,7 +24,9 @@ public class ValidationUtil {
     }
 
     public static void checkNotFound(boolean found, String msg) {
-        if (!found) throw new NotFoundException("Not found entity with " + msg);
+        if (!found) {
+            throw new NotFoundException("Not found entity with " + msg);
+        }
     }
 
     public static void checkNew(BaseEntity entity) {
