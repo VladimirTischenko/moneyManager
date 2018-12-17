@@ -18,7 +18,7 @@ import java.util.Collection;
 import static moneyManager.UserTestData.ADMIN;
 import static moneyManager.UserTestData.USER;
 
-@ContextConfiguration("classpath:spring/spring-app.xml")
+@ContextConfiguration({"classpath:spring/spring-app.xml", "classpath:spring/mock.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class InMemoryAdminRestControllerSpringTest {
     @Autowired
