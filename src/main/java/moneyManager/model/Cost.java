@@ -1,5 +1,7 @@
 package moneyManager.model;
 
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,6 +15,9 @@ public class Cost extends BaseEntity {
     private String description;
 
     private int price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public Cost() {
     }
@@ -58,6 +63,14 @@ public class Cost extends BaseEntity {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
