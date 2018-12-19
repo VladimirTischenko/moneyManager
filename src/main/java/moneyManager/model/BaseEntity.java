@@ -6,6 +6,7 @@ import javax.persistence.*;
  * Created by Vladimir on 08.08.2018.
  */
 @MappedSuperclass
+// http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access
 @Access(AccessType.FIELD)
 public class BaseEntity {
     public static final int START_SEQ = 100000;
@@ -13,6 +14,8 @@ public class BaseEntity {
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    // PROPERTY access for id due to bug: https://hibernate.atlassian.net/browse/HHH-3718
+    @Access(value = AccessType.PROPERTY)
     protected Integer id;
 
     BaseEntity() {
@@ -31,7 +34,7 @@ public class BaseEntity {
     }
 
     public boolean isNew() {
-        return (this.id == null);
+        return (getId() == null);
     }
 
     @Override
@@ -43,11 +46,11 @@ public class BaseEntity {
             return false;
         }
         BaseEntity that = (BaseEntity) o;
-        return id != null && id.equals(that.id);
+        return getId() != null && getId().equals(that.getId());
     }
 
     @Override
     public int hashCode() {
-        return (id == null) ? 0 : id;
+        return (getId() == null) ? 0 : getId();
     }
 }
