@@ -2,8 +2,15 @@ package moneyManager.service;
 
 import moneyManager.model.Cost;
 import moneyManager.util.exception.NotFoundException;
+import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.Stopwatch;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -13,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import static moneyManager.CostTestData.*;
 import static moneyManager.UserTestData.ADMIN_ID;
@@ -25,6 +33,32 @@ import static moneyManager.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class CostServiceTest {
+    private static final Logger LOG = LoggerFactory.getLogger(CostServiceTest.class);
+    private static StringBuilder results = new StringBuilder();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Rule
+    // http://stackoverflow.com/questions/14892125/what-is-the-best-practice-to-determine-the-execution-time-of-the-bussiness-relev
+    public Stopwatch stopwatch = new Stopwatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            String result = String.format("%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            results.append(result).append('\n');
+            LOG.info(result + " ms\n");
+        }
+    };
+
+    @AfterClass
+    public static void printResult() {
+        LOG.info("\n---------------------------------" +
+                "\nTest                 Duration, ms" +
+                "\n---------------------------------\n" +
+                results +
+                "---------------------------------\n");
+    }
+
     @Autowired
     private CostService service;
 
@@ -34,8 +68,9 @@ public class CostServiceTest {
         MATCHER.assertCollectionEquals(Arrays.asList(COST6, COST5, COST4, COST3, COST2), service.getAll(USER_ID));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testDeleteNotFound() {
+        thrown.expect(NotFoundException.class);
         service.delete(COST1_ID, 1);
     }
 
@@ -52,8 +87,9 @@ public class CostServiceTest {
         MATCHER.assertEquals(ADMIN_COST1, actual);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testGetNotFound() {
+        thrown.expect(NotFoundException.class);
         service.get(COST1_ID, ADMIN_ID);
     }
 
@@ -64,8 +100,10 @@ public class CostServiceTest {
         MATCHER.assertEquals(updated, service.get(COST1_ID, USER_ID));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testUpdateNotFound() {
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Not found entity with id=" + COST1_ID);
         service.update(COST1, ADMIN_ID);
     }
 
