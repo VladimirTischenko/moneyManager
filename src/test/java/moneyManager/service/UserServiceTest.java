@@ -4,6 +4,7 @@ import moneyManager.Profiles;
 import moneyManager.model.Role;
 import moneyManager.model.User;
 import moneyManager.util.exception.NotFoundException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ import static moneyManager.UserTestData.*;
 public class UserServiceTest {
     @Autowired
     private UserService service;
+
+    @Before
+    public void setUp() throws Exception {
+        service.evictCache();
+    }
 
     @Test
     public void testSave() {
