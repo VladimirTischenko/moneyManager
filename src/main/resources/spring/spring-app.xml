@@ -2,7 +2,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--
         <bean class="moneyManager.repository.mock.MockUserRepositoryImpl" id="mockUserRepository"/>
@@ -14,8 +14,8 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="**.service"/>
+    <context:component-scan base-package="moneyManager.service"/>
 
-    <context:component-scan base-package="**.web"/>
+    <context:component-scan base-package="moneyManager.web"/>
 
 </beans>
