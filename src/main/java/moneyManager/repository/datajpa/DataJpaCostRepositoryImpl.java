@@ -47,4 +47,9 @@ public class DataJpaCostRepositoryImpl implements CostRepository {
     public List<Cost> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return crudCostRepository.getBetween(startDate, endDate, userId);
     }
+
+    @Override
+    public Cost getWithUser(int id, int userId) {
+        return crudCostRepository.getWithUser(id, userId);
+    }
 }

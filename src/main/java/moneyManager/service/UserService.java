@@ -22,4 +22,6 @@ public interface UserService {
     void update(User user);
 
     void evictCache();
+
+    User getWithCosts(int id);
 }

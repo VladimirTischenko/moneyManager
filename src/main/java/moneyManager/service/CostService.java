@@ -27,4 +27,6 @@ public interface CostService {
     Cost update(Cost cost, int userId) throws NotFoundException;
 
     Cost save(Cost cost, int userId);
+
+    Cost getWithUser(int id, int userId);
 }

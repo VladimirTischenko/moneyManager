@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -51,6 +52,10 @@ public class User extends NamedEntity {
     @Column(name = "sum_per_day", columnDefinition = "int default 2000")
     @Range(min = 10, max = 10000)
     private int sumPerDay = CostsUtil.DEFAULT_SUM_PER_DAY;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OrderBy("dateTime DESC")
+    protected List<Cost> costs;
 
     public User() {
     }
@@ -114,6 +119,10 @@ public class User extends NamedEntity {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Cost> getCosts() {
+        return costs;
     }
 
     @Override

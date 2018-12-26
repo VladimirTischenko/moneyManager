@@ -15,7 +15,7 @@ import static moneyManager.UserTestData.USER_ID;
 
 public abstract class AbstractCostServiceTest extends AbstractServiceTest{
     @Autowired
-    private CostService service;
+    protected CostService service;
 
     @Test
     public void testDelete() {

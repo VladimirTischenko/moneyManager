@@ -2,6 +2,7 @@ package moneyManager.service;
 
 import moneyManager.model.User;
 import moneyManager.repository.UserRepository;
+import moneyManager.util.ValidationUtil;
 import moneyManager.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -62,5 +63,10 @@ public class UserServiceImpl implements UserService {
     @CacheEvict(value = "users", allEntries = true)
     @Override
     public void evictCache() {
+    }
+
+    @Override
+    public User getWithCosts(int id) {
+        return ValidationUtil.checkNotFoundWithId(repository.getWithCosts(id), id);
     }
 }

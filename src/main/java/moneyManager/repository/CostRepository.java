@@ -23,4 +23,8 @@ public interface CostRepository {
 
     // ORDERED dateTime
     Collection<Cost> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
+
+    default Cost getWithUser(int id, int userId) {
+        throw new UnsupportedOperationException();
+    }
 }
