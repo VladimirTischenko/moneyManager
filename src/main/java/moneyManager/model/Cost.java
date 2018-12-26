@@ -101,7 +101,7 @@ public class Cost extends BaseEntity {
     @Override
     public String toString() {
         return "Cost{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", dateTime=" + dateTime +
                 ", description='" + description + '\'' +
                 ", price=" + price +
