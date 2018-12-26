@@ -1,11 +1,11 @@
 package moneyManager.web;
 
+import moneyManager.Profiles;
 import moneyManager.model.Cost;
 import moneyManager.util.DateTimeUtil;
 import moneyManager.web.cost.CostRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.ServletConfig;
@@ -26,13 +26,16 @@ import java.util.Objects;
 public class CostServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(CostServlet.class);
 
-    private ConfigurableApplicationContext springContext;
+    private ClassPathXmlApplicationContext springContext;
     private CostRestController costController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
+        springContext = new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml", "spring/spring-db.xml"}, false);
+//       springContext.setConfigLocations("spring/spring-app.xml", "spring/spring-db.xml");
+        springContext.getEnvironment().setActiveProfiles(Profiles.ACTIVE_DB, Profiles.DB_IMPLEMENTATION);
+        springContext.refresh();
         costController = springContext.getBean(CostRestController.class);
     }
 
