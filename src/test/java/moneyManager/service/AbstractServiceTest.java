@@ -1,5 +1,6 @@
 package moneyManager.service;
 
+import moneyManager.ActiveDbProfileResolver;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -17,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.concurrent.TimeUnit;
 
-import static moneyManager.Profiles.ACTIVE_DB;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 /**
@@ -28,7 +28,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles(ACTIVE_DB)
+@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 abstract public class AbstractServiceTest {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractServiceTest.class);

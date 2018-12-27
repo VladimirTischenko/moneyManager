@@ -1,7 +1,5 @@
 package moneyManager;
 
-import moneyManager.model.Role;
-import moneyManager.model.User;
 import moneyManager.to.CostWithExceed;
 import moneyManager.web.cost.CostRestController;
 import moneyManager.web.user.AdminRestController;
@@ -13,6 +11,8 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
+import static moneyManager.UserTestData.USER_ID;
+
 /**
  * Created by Vladimir on 11.08.2018.
  */
@@ -20,13 +20,13 @@ public class SpringMain {
     public static void main(String[] args) {
         // java 7 Automatic resource management
         try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext()) {
-            appCtx.getEnvironment().setActiveProfiles(Profiles.ACTIVE_DB, Profiles.DB_IMPLEMENTATION);
+            appCtx.getEnvironment().setActiveProfiles(Profiles.getActiveDbProfile(), Profiles.DB_IMPLEMENTATION);
             appCtx.load("spring/spring-app.xml", "spring/spring-db.xml");
             appCtx.refresh();
 
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
-            adminUserController.create(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
+            adminUserController.get(USER_ID);
             System.out.println();
 
             CostRestController controller = appCtx.getBean(CostRestController.class);
