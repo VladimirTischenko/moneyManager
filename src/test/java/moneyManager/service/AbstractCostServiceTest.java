@@ -5,10 +5,12 @@ import moneyManager.util.exception.NotFoundException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
 
+import static java.time.LocalDateTime.of;
 import static moneyManager.CostTestData.*;
 import static moneyManager.UserTestData.ADMIN_ID;
 import static moneyManager.UserTestData.USER_ID;
@@ -71,5 +73,13 @@ public abstract class AbstractCostServiceTest extends AbstractServiceTest{
     public void testGetBetween() {
         MATCHER.assertCollectionEquals(Arrays.asList(COST5, COST4, COST3),
                 service.getBetweenDates(LocalDate.of(2018, Month.JULY, 22), LocalDate.of(2018, Month.JULY, 22), USER_ID));
+    }
+
+    @Test
+    public void testValidation() {
+        validateRootCause(() -> service.save(new Cost(null, of(2015, Month.JUNE, 1, 18, 0), "  ", 300), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.save(new Cost(null, null, "Description", 300), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.save(new Cost(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 9), USER_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.save(new Cost(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 5001), USER_ID), ConstraintViolationException.class);
     }
 }
