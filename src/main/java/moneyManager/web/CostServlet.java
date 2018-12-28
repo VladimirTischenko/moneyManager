@@ -1,12 +1,12 @@
 package moneyManager.web;
 
-import moneyManager.Profiles;
 import moneyManager.model.Cost;
 import moneyManager.util.DateTimeUtil;
 import moneyManager.web.cost.CostRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -26,23 +26,13 @@ import java.util.Objects;
 public class CostServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(CostServlet.class);
 
-    private ClassPathXmlApplicationContext springContext;
     private CostRestController costController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        springContext = new ClassPathXmlApplicationContext(new String[]{"spring/spring-app.xml", "spring/spring-db.xml"}, false);
-//       springContext.setConfigLocations("spring/spring-app.xml", "spring/spring-db.xml");
-        springContext.getEnvironment().setActiveProfiles(Profiles.getActiveDbProfile(), Profiles.DB_IMPLEMENTATION);
-        springContext.refresh();
+        WebApplicationContext springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         costController = springContext.getBean(CostRestController.class);
-    }
-
-    @Override
-    public void destroy() {
-        springContext.close();
-        super.destroy();
     }
 
     @Override
