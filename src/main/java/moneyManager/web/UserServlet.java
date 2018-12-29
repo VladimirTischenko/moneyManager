@@ -1,8 +1,12 @@
 package moneyManager.web;
 
 import moneyManager.AuthorizedUser;
+import moneyManager.web.user.AdminRestController;
 import org.slf4j.Logger;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +21,15 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class UserServlet extends HttpServlet {
     private static final Logger LOG = getLogger(UserServlet.class);
 
+    private AdminRestController adminController;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        WebApplicationContext springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+        adminController = springContext.getBean(AdminRestController.class);
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int userId = Integer.valueOf(request.getParameter("userId"));
         AuthorizedUser.setId(userId);
@@ -25,7 +38,8 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOG.debug("forward to users");
+        LOG.debug("getAll");
+        request.setAttribute("users", adminController.getAll());
         request.getRequestDispatcher("/users.jsp").forward(request, response);
     }
 }
