@@ -16,7 +16,4 @@
     <context:annotation-config/>
 
     <context:component-scan base-package="moneyManager.service"/>
-
-    <context:component-scan base-package="moneyManager.web"/>
-
 </beans>
