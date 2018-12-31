@@ -2,14 +2,12 @@ package moneyManager.service;
 
 import moneyManager.model.Role;
 import moneyManager.model.User;
-import moneyManager.repository.JpaUtil;
 import moneyManager.util.exception.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
-import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,13 +18,9 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
     @Autowired
     protected UserService service;
 
-    @Autowired
-    protected JpaUtil jpaUtil;
-
     @Before
     public void setUp() throws Exception {
         service.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
     }
 
     @Test
@@ -83,14 +77,5 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest{
         updated.setSumPerDay(330);
         service.update(updated);
         MATCHER.assertEquals(updated, service.get(USER_ID));
-    }
-
-    @Test
-    public void testValidation() {
-        validateRootCause(() -> service.save(new User(null, "  ", "invalid@yandex.ru", "password", Role.ROLE_USER)), ConstraintViolationException.class);
-        validateRootCause(() -> service.save(new User(null, "User", "  ", "password", Role.ROLE_USER)), ConstraintViolationException.class);
-        validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "  ", Role.ROLE_USER)), ConstraintViolationException.class);
-        validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "password", 9, true, Collections.emptySet())), ConstraintViolationException.class);
-        validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "password", 10001, true, Collections.emptySet())), ConstraintViolationException.class);
     }
 }

@@ -2,6 +2,7 @@ package moneyManager.service;
 
 import moneyManager.model.Cost;
 import moneyManager.util.exception.NotFoundException;
+import org.junit.Assume;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -77,6 +78,7 @@ public abstract class AbstractCostServiceTest extends AbstractServiceTest{
 
     @Test
     public void testValidation() {
+        Assume.assumeTrue(isJpaBased());
         validateRootCause(() -> service.save(new Cost(null, of(2015, Month.JUNE, 1, 18, 0), "  ", 300), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.save(new Cost(null, null, "Description", 300), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.save(new Cost(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 9), USER_ID), ConstraintViolationException.class);
