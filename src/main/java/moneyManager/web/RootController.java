@@ -1,7 +1,9 @@
 package moneyManager.web;
 
 import moneyManager.AuthorizedUser;
+import moneyManager.service.CostService;
 import moneyManager.service.UserService;
+import moneyManager.util.CostsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class RootController {
     @Autowired
-    private UserService service;
+    private UserService userService;
+
+    @Autowired
+    private CostService costService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
@@ -26,7 +31,7 @@ public class RootController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String users(Model model) {
-        model.addAttribute("users", service.getAll());
+        model.addAttribute("users", userService.getAll());
         return "users";
     }
 
@@ -35,5 +40,12 @@ public class RootController {
         int userId = Integer.valueOf(request.getParameter("userId"));
         AuthorizedUser.setId(userId);
         return "redirect:costs";
+    }
+
+    @RequestMapping(value = "/costs", method = RequestMethod.GET)
+    public String costs(Model model) {
+        model.addAttribute("costs",
+                CostsUtil.getWithExceeded(costService.getAll(AuthorizedUser.id()), AuthorizedUser.getSumPerDay()));
+        return "costs";
     }
 }

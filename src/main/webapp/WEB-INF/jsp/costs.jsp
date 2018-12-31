@@ -3,41 +3,41 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://moneymanager/functions" %>
 <html>
-<head>
-    <title>Cost list</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
+<jsp:include page="fragments/headTag.jsp"/>
 <body>
+<jsp:include page="fragments/bodyHeader.jsp"/>
+
 <section>
-    <h3>Cost list</h3>
+    <h3><fmt:message key="costs.title"/></h3>
+
     <form method="post" action="costs?action=filter">
         <dl>
-            <dt>From Date:</dt>
+            <dt><fmt:message key="costs.startDate"/>:</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
         </dl>
         <dl>
-            <dt>To Date:</dt>
+            <dt><fmt:message key="costs.endDate"/>:</dt>
             <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
         </dl>
         <dl>
-            <dt>From Time:</dt>
+            <dt><fmt:message key="costs.startTime"/>:</dt>
             <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
         </dl>
         <dl>
-            <dt>To Time:</dt>
+            <dt><fmt:message key="costs.endTime"/>:</dt>
             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
         </dl>
-        <button type="submit">Filter</button>
+        <button type="submit"><fmt:message key="costs.filter"/></button>
     </form>
     <hr>
-    <a href="costs?action=create">Add Cost</a>
+    <a href="costs?action=create"><fmt:message key="costs.add"/></a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Price</th>
+            <th><fmt:message key="costs.dateTime"/></th>
+            <th><fmt:message key="costs.description"/></th>
+            <th><fmt:message key="costs.price"/></th>
             <th></th>
             <th></th>
         </tr>
@@ -52,11 +52,12 @@
                 </td>
                 <td>${cost.description}</td>
                 <td>${cost.price}</td>
-                <td><a href="costs?action=update&id=${cost.id}">Update</a></td>
-                <td><a href="costs?action=delete&id=${cost.id}">Delete</a></td>
+                <td><a href="costs?action=update&id=${cost.id}"><fmt:message key="common.update"/></a></td>
+                <td><a href="costs?action=delete&id=${cost.id}"><fmt:message key="common.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
 </section>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
