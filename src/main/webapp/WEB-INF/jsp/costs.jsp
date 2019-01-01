@@ -10,7 +10,7 @@
 <section>
     <h3><fmt:message key="costs.title"/></h3>
 
-    <form method="post" action="costs?action=filter">
+    <form method="post" action="costs/filter">
         <dl>
             <dt><fmt:message key="costs.startDate"/>:</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -30,7 +30,7 @@
         <button type="submit"><fmt:message key="costs.filter"/></button>
     </form>
     <hr>
-    <a href="costs?action=create"><fmt:message key="costs.add"/></a>
+    <a href="costs/create"><fmt:message key="costs.add"/></a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -52,8 +52,8 @@
                 </td>
                 <td>${cost.description}</td>
                 <td>${cost.price}</td>
-                <td><a href="costs?action=update&id=${cost.id}"><fmt:message key="common.update"/></a></td>
-                <td><a href="costs?action=delete&id=${cost.id}"><fmt:message key="common.delete"/></a></td>
+                <td><a href="costs/update?id=${cost.id}"><fmt:message key="common.update"/></a></td>
+                <td><a href="costs/delete?id=${cost.id}"><fmt:message key="common.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>

@@ -35,26 +35,4 @@
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
-<!--
-    <servlet>
-        <servlet-name>userServlet</servlet-name>
-        <servlet-class>moneyManager.web.UserServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>userServlet</servlet-name>
-        <url-pattern>/users</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>costServlet</servlet-name>
-        <servlet-class>moneyManager.web.CostServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>costServlet</servlet-name>
-        <url-pattern>/costs</url-pattern>
-    </servlet-mapping>
--->
 </web-app>
