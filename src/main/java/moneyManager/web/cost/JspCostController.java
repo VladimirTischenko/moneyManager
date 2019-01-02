@@ -23,7 +23,7 @@ public class JspCostController extends AbstractCostController {
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String delete(HttpServletRequest request) {
         super.delete(getId(request));
-        return "redirect:costs";
+        return "redirect:/costs";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -51,7 +51,7 @@ public class JspCostController extends AbstractCostController {
         } else {
             super.update(cost, cost.getId());
         }
-        return "redirect:costs";
+        return "redirect:/costs";
     }
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST)
