@@ -2,22 +2,29 @@ package moneyManager.web.user;
 
 import moneyManager.AuthorizedUser;
 import moneyManager.model.User;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Vladimir on 09.08.2018.
  */
-@Controller
+@RestController
+@RequestMapping(ProfileRestController.REST_URL)
 public class ProfileRestController extends AbstractUserController {
+    static final String REST_URL = "/rest/profile";
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User get() {
         return super.get(AuthorizedUser.id());
     }
 
+    @DeleteMapping
     public void delete() {
         super.delete(AuthorizedUser.id());
     }
 
-    public void update(User user) {
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody User user) {
         super.update(user, AuthorizedUser.id());
     }
 }

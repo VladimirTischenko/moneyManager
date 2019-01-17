@@ -4,8 +4,9 @@ import moneyManager.model.Cost;
 import moneyManager.util.DateTimeUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -20,25 +21,25 @@ import java.util.Objects;
 @Controller
 @RequestMapping(value = "/costs")
 public class JspCostController extends AbstractCostController {
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @GetMapping("/delete")
     public String delete(HttpServletRequest request) {
         super.delete(getId(request));
         return "redirect:/costs";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @GetMapping("/update")
     public String update(HttpServletRequest request, Model model) {
         model.addAttribute("cost", super.get(getId(request)));
         return "cost";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("cost", new Cost(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), "", 1000));
         return "cost";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public String updateOrCreate(HttpServletRequest request) {
         String id = request.getParameter("id");
         Cost cost = new Cost(id.isEmpty() ? null : Integer.valueOf(id),
@@ -54,7 +55,7 @@ public class JspCostController extends AbstractCostController {
         return "redirect:/costs";
     }
 
-    @RequestMapping(value = "/filter", method = RequestMethod.POST)
+    @PostMapping("/filter")
     public String getBetween(HttpServletRequest request, Model model) {
         LocalDate startDate = DateTimeUtil.parseLocalDate(request.getParameter("startDate"));
         LocalDate endDate = DateTimeUtil.parseLocalDate(request.getParameter("endDate"));
