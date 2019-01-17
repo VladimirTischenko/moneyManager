@@ -1,6 +1,5 @@
 package moneyManager.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import moneyManager.util.CostsUtil;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -64,7 +63,7 @@ public class User extends NamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("dateTime DESC")
-    @JsonIgnore
+//    @JsonIgnore
     protected List<Cost> costs;
 
     public User() {
