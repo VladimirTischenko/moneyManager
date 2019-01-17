@@ -1,6 +1,7 @@
 package moneyManager.web;
 
 import moneyManager.AllActiveProfileResolver;
+import moneyManager.repository.JpaUtil;
 import moneyManager.service.UserService;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -34,6 +35,9 @@ abstract public class AbstractControllerTest {
         CHARACTER_ENCODING_FILTER.setForceEncoding(true);
     }
 
+    @Autowired
+    private JpaUtil jpaUtil;
+
     protected MockMvc mockMvc;
 
     @Autowired
@@ -53,5 +57,6 @@ abstract public class AbstractControllerTest {
     @Before
     public void setUp() {
         userService.evictCache();
+        jpaUtil.clear2ndLevelHibernateCache();
     }
 }

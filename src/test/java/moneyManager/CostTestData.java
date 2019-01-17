@@ -11,7 +11,7 @@ import static java.time.LocalDateTime.of;
 import static moneyManager.model.BaseEntity.START_SEQ;
 
 public class CostTestData {
-    public static final ModelMatcher<Cost> MATCHER = new ModelMatcher<>();
+    public static final ModelMatcher<Cost> MATCHER = ModelMatcher.of(Cost.class);
 
     public static final int COST1_ID = START_SEQ + 2;
     public static final int ADMIN_COST_ID = START_SEQ + 8;
@@ -32,6 +32,6 @@ public class CostTestData {
     }
 
     public static Cost getUpdated() {
-        return new Cost(COST1_ID, COST1.getDateTime(), "Обновленный завтрак", 200);
+        return new Cost(COST1_ID, COST1.getDateTime(), "Updated cost", 200);
     }
 }
