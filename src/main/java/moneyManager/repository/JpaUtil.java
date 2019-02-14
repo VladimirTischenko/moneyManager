@@ -13,12 +13,7 @@ public class JpaUtil {
     public void clear2ndLevelHibernateCache() {
         Session s = (Session) em.getDelegate();
         SessionFactory sf = s.getSessionFactory();
-//        sf.evict(User.class);
-//        sf.getCache().evictEntity(User.class, BaseEntity.START_SEQ);
-//        sf.getCache().evictEntityRegion(User.class);
-        sf.getCache().evictQueryRegions();
-        sf.getCache().evictDefaultQueryRegion();
-        sf.getCache().evictCollectionRegions();
-        sf.getCache().evictEntityRegions();
+
+        sf.getCache().evictAllRegions();
     }
 }

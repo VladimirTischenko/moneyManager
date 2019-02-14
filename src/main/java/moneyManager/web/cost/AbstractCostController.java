@@ -14,6 +14,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static moneyManager.util.ValidationUtil.checkIdConsistent;
+import static moneyManager.util.ValidationUtil.checkNew;
+
 /**
  * Created by Vladimir on 01.01.2019.
  */
@@ -42,14 +45,14 @@ public class AbstractCostController {
     }
 
     public void update(Cost cost, int id) {
-        cost.setId(id);
+        checkIdConsistent(cost, id);
         int userId = AuthorizedUser.id();
         LOG.info("update {} for User {}", cost, userId);
         service.update(cost, userId);
     }
 
     public Cost create(Cost cost) {
-        cost.setId(null);
+        checkNew(cost);
         int userId = AuthorizedUser.id();
         LOG.info("create {} for User {}", cost, userId);
         return service.save(cost, userId);
@@ -58,10 +61,13 @@ public class AbstractCostController {
     public List<CostWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
         int userId = AuthorizedUser.id();
         LOG.info("getBetween dates {} - {} for time {} - {} for User {}", startDate, endDate, startTime, endTime, userId);
+
         return CostsUtil.getFilteredWithExceeded(
                 service.getBetweenDates(
-                        startDate != null ? startDate : DateTimeUtil.MIN_DATE, endDate != null ? endDate : DateTimeUtil.MAX_DATE, userId
-                ), startTime != null ? startTime : LocalTime.MIN, endTime != null ? endTime : LocalTime.MAX, AuthorizedUser.getSumPerDay()
-        );
+                        startDate != null ? startDate : DateTimeUtil.MIN_DATE,
+                        endDate != null ? endDate : DateTimeUtil.MAX_DATE,
+                        userId),
+                startTime != null ? startTime : LocalTime.MIN,
+                endTime != null ? endTime : LocalTime.MAX, AuthorizedUser.getSumPerDay());
     }
 }
