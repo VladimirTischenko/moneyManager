@@ -2,6 +2,7 @@ package moneyManager;
 
 import moneyManager.matcher.ModelMatcher;
 import moneyManager.model.Cost;
+import moneyManager.to.CostWithExceed;
 
 import java.time.Month;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import static moneyManager.model.BaseEntity.START_SEQ;
 
 public class CostTestData {
     public static final ModelMatcher<Cost> MATCHER = ModelMatcher.of(Cost.class);
+    public static final ModelMatcher<CostWithExceed> MATCHER_WITH_EXCEED = ModelMatcher.of(CostWithExceed.class);
 
     public static final int COST1_ID = START_SEQ + 2;
     public static final int ADMIN_COST_ID = START_SEQ + 8;

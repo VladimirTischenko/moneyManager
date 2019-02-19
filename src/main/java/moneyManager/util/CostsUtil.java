@@ -41,7 +41,7 @@ public class CostsUtil {
         return costsWithExceed;
     }
 
-    private static CostWithExceed createWithExceed(Cost cost, boolean exceeded) {
+    public static CostWithExceed createWithExceed(Cost cost, boolean exceeded) {
         return new CostWithExceed(cost.getId(), cost.getDateTime(), cost.getDescription(), cost.getPrice(), exceeded);
     }
 }

@@ -1,5 +1,7 @@
 package moneyManager.to;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +18,11 @@ public class CostWithExceed {
 
     private final boolean exceed;
 
-    public CostWithExceed(Integer id, LocalDateTime dateTime, String description, int price, boolean exceed) {
+    public CostWithExceed(@JsonProperty("id") Integer id,
+                          @JsonProperty("dateTime") LocalDateTime dateTime,
+                          @JsonProperty("description") String description,
+                          @JsonProperty("price") int price,
+                          @JsonProperty("exceed") boolean exceed) {
         this.id = id;
         this.dateTime = dateTime;
         this.description = description;
