@@ -87,4 +87,26 @@ public class MealRestControllerTest extends AbstractControllerTest {
                         CostsUtil.createWithExceed(COST4, true),
                         CostsUtil.createWithExceed(COST1, false)));
     }
+
+    @Test
+    public void testFilter() throws Exception {
+        mockMvc.perform(get(REST_URL + "filter")
+                .param("startDate", "2018-07-21").param("startTime", "07:00")
+                .param("endDate", "2018-22-31").param("endTime", "11:00"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
+                        CostsUtil.createWithExceed(COST3, true),
+                        CostsUtil.createWithExceed(COST1, false)));
+    }
+
+
+    @Test
+    public void testFilterAll() throws Exception {
+        mockMvc.perform(get(REST_URL + "filter?startDate=&endTime="))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
+                        CostsUtil.getWithExceeded(Arrays.asList(COST6, COST5, COST4, COST3, COST2, COST1), USER.getSumPerDay())));
+    }
 }
