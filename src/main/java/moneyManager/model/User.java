@@ -1,6 +1,5 @@
 package moneyManager.model;
 
-import moneyManager.util.CostsUtil;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -12,6 +11,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.*;
+
+import static moneyManager.util.UserUtil.DEFAULT_SUM_PER_DAY;
 
 /**
  * Created by Vladimir on 08.08.2018.
@@ -59,7 +60,7 @@ public class User extends NamedEntity {
 
     @Column(name = "sum_per_day", columnDefinition = "int default 2000")
     @Range(min = 10, max = 10000)
-    private int sumPerDay = CostsUtil.DEFAULT_SUM_PER_DAY;
+    private int sumPerDay = DEFAULT_SUM_PER_DAY;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("dateTime DESC")
@@ -74,7 +75,7 @@ public class User extends NamedEntity {
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, CostsUtil.DEFAULT_SUM_PER_DAY, true, EnumSet.of(role, roles));
+        this(id, name, email, password, DEFAULT_SUM_PER_DAY, true, EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String email, String password, int sumPerDay, boolean enabled, Set<Role> roles) {

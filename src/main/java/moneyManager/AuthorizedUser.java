@@ -1,6 +1,6 @@
 package moneyManager;
 
-import moneyManager.util.CostsUtil;
+import moneyManager.util.UserUtil;
 
 import static moneyManager.model.BaseEntity.START_SEQ;
 
@@ -19,6 +19,6 @@ public class AuthorizedUser {
     }
 
     public static int getSumPerDay() {
-        return CostsUtil.DEFAULT_SUM_PER_DAY;
+        return UserUtil.DEFAULT_SUM_PER_DAY;
     }
 }

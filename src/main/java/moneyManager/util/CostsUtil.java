@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
  * Created by Vladimir on 26.07.2018.
  */
 public class CostsUtil {
-    public static final int DEFAULT_SUM_PER_DAY = 2000;
-
     public static List<CostWithExceed> getWithExceeded(Collection<Cost> costs, int sumPerDay) {
         return getFilteredWithExceeded(costs, LocalTime.MIN, LocalTime.MAX, sumPerDay);
     }
