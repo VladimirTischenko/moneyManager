@@ -2,7 +2,6 @@ package moneyManager.web;
 
 import moneyManager.AuthorizedUser;
 import moneyManager.service.CostService;
-import moneyManager.service.UserService;
 import moneyManager.util.CostsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,9 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class RootController {
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private CostService costService;
 
     @GetMapping("/")
@@ -31,7 +27,6 @@ public class RootController {
 
     @GetMapping("/users")
     public String users(Model model) {
-        model.addAttribute("users", userService.getAll());
         return "users";
     }
 
