@@ -1,6 +1,7 @@
 package moneyManager.service;
 
 import moneyManager.model.User;
+import moneyManager.to.UserTo;
 import moneyManager.util.exception.NotFoundException;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface UserService {
     List<User> getAll();
 
     void update(User user);
+
+    void update(UserTo user);
 
     void evictCache();
 

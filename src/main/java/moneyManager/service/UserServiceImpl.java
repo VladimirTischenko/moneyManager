@@ -2,6 +2,8 @@ package moneyManager.service;
 
 import moneyManager.model.User;
 import moneyManager.repository.UserRepository;
+import moneyManager.to.UserTo;
+import moneyManager.util.UserUtil;
 import moneyManager.util.ValidationUtil;
 import moneyManager.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,14 @@ public class UserServiceImpl implements UserService {
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
         repository.save(user);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    @Transactional
+    @Override
+    public void update(UserTo userTo) {
+        User user = get(userTo.getId());
+        repository.save(UserUtil.updateFromTo(user, userTo));
     }
 
     @CacheEvict(value = "users", allEntries = true)

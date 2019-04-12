@@ -2,6 +2,7 @@ package moneyManager.web.user;
 
 import moneyManager.model.User;
 import moneyManager.service.UserService;
+import moneyManager.to.UserTo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,11 @@ public class AbstractUserController {
         checkIdConsistent(user, id);
         log.info("update " + user);
         service.update(user);
+    }
+
+    public void update(UserTo userTo) {
+        log.info("update " + userTo);
+        service.update(userTo);
     }
 
     public User getByMail(String email) {
