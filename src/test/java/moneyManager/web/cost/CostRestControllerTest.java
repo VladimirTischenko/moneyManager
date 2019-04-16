@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class MealRestControllerTest extends AbstractControllerTest {
+public class CostRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = CostRestController.REST_URL + '/';
 
     @Autowired
@@ -80,11 +80,11 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetBetween() throws Exception {
-        mockMvc.perform(get(REST_URL + "between?startDateTime=2015-05-30T07:00&endDateTime=2015-05-31T11:00:00"))
+        mockMvc.perform(get(REST_URL + "between?startDateTime=2018-07-21T07:00&endDateTime=2018-07-22T12:00:00"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
-                        CostsUtil.createWithExceed(COST4, true),
+                        CostsUtil.createWithExceed(COST3, true),
                         CostsUtil.createWithExceed(COST1, false)));
     }
 
@@ -92,7 +92,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
     public void testFilter() throws Exception {
         mockMvc.perform(get(REST_URL + "filter")
                 .param("startDate", "2018-07-21").param("startTime", "07:00")
-                .param("endDate", "2018-22-31").param("endTime", "11:00"))
+                .param("endDate", "2018-07-22").param("endTime", "12:00"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
