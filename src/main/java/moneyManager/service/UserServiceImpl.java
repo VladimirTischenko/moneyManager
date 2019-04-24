@@ -1,5 +1,6 @@
 package moneyManager.service;
 
+import moneyManager.AuthorizedUser;
 import moneyManager.model.User;
 import moneyManager.repository.UserRepository;
 import moneyManager.to.UserTo;
@@ -9,6 +10,8 @@ import moneyManager.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -21,8 +24,8 @@ import static moneyManager.util.ValidationUtil.checkNotFoundWithId;
 /**
  * Created by Vladimir on 09.08.2018.
  */
-@Service
-public class UserServiceImpl implements UserService {
+@Service("userService")
+public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository repository;
 
@@ -83,6 +86,15 @@ public class UserServiceImpl implements UserService {
         User user = get(id);
         user.setEnabled(enabled);
         repository.save(user);
+    }
+
+    @Override
+    public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
+        User u = repository.getByEmail(email.toLowerCase());
+        if (u == null) {
+            throw new UsernameNotFoundException("User " + email + " is not found");
+        }
+        return new AuthorizedUser(u);
     }
 
     @Override
