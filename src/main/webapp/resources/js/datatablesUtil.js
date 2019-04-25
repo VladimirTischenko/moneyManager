@@ -9,7 +9,7 @@ function makeEditable() {
 
 function add(title) {
     $('#modalTitle').html(title);
-    form[0].reset();
+    form.find(":input").val("");
     $('#editRow').modal();
 }
 

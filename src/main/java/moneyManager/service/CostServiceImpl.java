@@ -2,7 +2,6 @@ package moneyManager.service;
 
 import moneyManager.model.Cost;
 import moneyManager.repository.CostRepository;
-import moneyManager.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -56,6 +55,6 @@ public class CostServiceImpl implements CostService {
 
     @Override
     public Cost getWithUser(int id, int userId) {
-        return ValidationUtil.checkNotFoundWithId(repository.getWithUser(id, userId), id);
+        return checkNotFoundWithId(repository.getWithUser(id, userId), id);
     }
 }

@@ -23,21 +23,25 @@ import java.util.List;
 public class CostRestController extends AbstractCostController{
     static final String REST_URL = "/rest/profile/costs";
 
+    @Override
     @GetMapping("/{id}")
     public Cost get(@PathVariable("id") int id) {
         return super.get(id);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }
 
+    @Override
     @GetMapping
     public List<CostWithExceed> getAll() {
         return super.getAll();
     }
 
+    @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody Cost cost, @PathVariable("id") int id) {
         super.update(cost, id);
@@ -61,6 +65,7 @@ public class CostRestController extends AbstractCostController{
         return super.getBetween(startDateTime.toLocalDate(), startDateTime.toLocalTime(), endDateTime.toLocalDate(), endDateTime.toLocalTime());
     }
 
+    @Override
     @RequestMapping(value = "/filter", method = RequestMethod.GET)
     public List<CostWithExceed> getBetween(
             @RequestParam(value = "startDate", required = false) LocalDate startDate, @RequestParam(value = "startTime", required = false) LocalTime startTime,

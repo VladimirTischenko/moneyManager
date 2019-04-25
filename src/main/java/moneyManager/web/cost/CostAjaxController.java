@@ -17,11 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/ajax/profile/costs")
 public class CostAjaxController extends AbstractCostController {
+    @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CostWithExceed> getAll() {
         return super.getAll();
     }
 
+    @Override
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
@@ -40,6 +42,7 @@ public class CostAjaxController extends AbstractCostController {
         }
     }
 
+    @Override
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CostWithExceed> getBetween(
             @RequestParam(value = "startDate", required = false) LocalDate startDate,

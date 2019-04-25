@@ -25,7 +25,7 @@ public class RootController {
     }
 
     @GetMapping("/users")
-    public String users(Model model) {
+    public String users() {
         return "users";
     }
 

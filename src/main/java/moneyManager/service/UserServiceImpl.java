@@ -5,7 +5,6 @@ import moneyManager.model.User;
 import moneyManager.repository.UserRepository;
 import moneyManager.to.UserTo;
 import moneyManager.util.UserUtil;
-import moneyManager.util.ValidationUtil;
 import moneyManager.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -99,6 +98,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User getWithCosts(int id) {
-        return ValidationUtil.checkNotFoundWithId(repository.getWithCosts(id), id);
+        return checkNotFoundWithId(repository.getWithCosts(id), id);
     }
 }
