@@ -12,6 +12,9 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
+import static moneyManager.TestUtil.mockAuthorize;
+import static moneyManager.UserTestData.USER;
+
 /**
  * Created by Vladimir on 11.08.2018.
  */
@@ -22,6 +25,8 @@ public class SpringMain {
             appCtx.getEnvironment().setActiveProfiles(Profiles.getActiveDbProfile(), Profiles.DB_IMPLEMENTATION);
             appCtx.load("spring/spring-app.xml", "spring/mock.xml");
             appCtx.refresh();
+
+            mockAuthorize(USER);
 
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
