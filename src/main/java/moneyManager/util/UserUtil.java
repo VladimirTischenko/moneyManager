@@ -4,9 +4,6 @@ import moneyManager.model.Role;
 import moneyManager.model.User;
 import moneyManager.to.UserTo;
 
-/**
- * GKislin
- */
 public class UserUtil {
     public static final int DEFAULT_SUM_PER_DAY = 2000;
 

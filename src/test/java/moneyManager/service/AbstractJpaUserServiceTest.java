@@ -11,10 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 
-/**
- * GKislin
- * 07.04.2015.
- */
 abstract public class AbstractJpaUserServiceTest extends AbstractUserServiceTest {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired

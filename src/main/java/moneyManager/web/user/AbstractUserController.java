@@ -1,5 +1,6 @@
 package moneyManager.web.user;
 
+import moneyManager.AuthorizedUser;
 import moneyManager.model.User;
 import moneyManager.service.UserService;
 import moneyManager.to.UserTo;
@@ -50,6 +51,7 @@ public class AbstractUserController {
 
     public void update(UserTo userTo) {
         log.info("update " + userTo);
+        checkIdConsistent(userTo, AuthorizedUser.id());
         service.update(userTo);
     }
 

@@ -1,5 +1,6 @@
 package moneyManager.model;
 
+import moneyManager.util.HasId;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Persistable;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 //@JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE, isGetterVisibility = NONE, setterVisibility = NONE)
-public class BaseEntity implements Persistable<Integer> {
+public class BaseEntity implements HasId {
     public static final int START_SEQ = 100000;
 
     @Id
@@ -27,6 +28,7 @@ public class BaseEntity implements Persistable<Integer> {
         this.id = id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
