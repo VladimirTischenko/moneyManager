@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <a class="btn btn-info" onclick="add()">
+                <a class="btn btn-info" onclick="add('<spring:message code="costs.add"/>')">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </a>
                 <table class="table table-striped display" id="datatable">
@@ -76,24 +76,6 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <c:forEach items="${costs}" var="cost">
-                        <jsp:useBean id="cost" scope="page" type="moneyManager.to.CostWithExceed"/>
-                        <tr class="${cost.exceed ? 'exceeded' : 'normal'}">
-                            <td>
-                                    <%--<fmt:parseDate value="${cost.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
-                                    <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
-                                    ${fn:formatDateTime(cost.dateTime)}
-                            </td>
-                            <td>${cost.description}</td>
-                            <td>${cost.price}</td>
-                            <td><a class="btn btn-xs btn-primary">
-                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                            </a></td>
-                            <td><a class="btn btn-xs btn-danger" onclick="deleteRow(${cost.id})">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            </a></td>
-                        </tr>
-                    </c:forEach>
                 </table>
             </div>
         </div>
@@ -106,7 +88,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="modalTitle"><spring:message code="costs.add"/></h2>
+                <h2 class="modal-title" id="modalTitle"></h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="detailsForm">

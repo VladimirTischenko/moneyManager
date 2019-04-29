@@ -2,12 +2,15 @@ package moneyManager.web.cost;
 
 import moneyManager.model.Cost;
 import moneyManager.to.CostWithExceed;
-import org.springframework.format.annotation.DateTimeFormat;
+import moneyManager.util.ValidationUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -24,22 +27,28 @@ public class CostAjaxController extends AbstractCostController {
     }
 
     @Override
+    @GetMapping(value = "/{id}")
+    public Cost get(@PathVariable("id") int id) {
+        return super.get(id);
+    }
+
+    @Override
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }
 
     @PostMapping
-    public void updateOrCreate(@RequestParam("id") Integer id,
-                               @RequestParam("dateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime,
-                               @RequestParam("description") String description,
-                               @RequestParam("price") int price) {
-        Cost cost = new Cost(id, dateTime, description, price);
+    public ResponseEntity<String> updateOrCreate(@Valid Cost cost, BindingResult result) {
+        if (result.hasErrors()) {
+            return ValidationUtil.getErrorResponse(result);
+        }
         if (cost.isNew()) {
             super.create(cost);
         } else {
-            super.update(cost, id);
+            super.update(cost, cost.getId());
         }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override

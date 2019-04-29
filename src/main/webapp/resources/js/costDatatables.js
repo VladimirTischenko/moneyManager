@@ -1,5 +1,6 @@
 var ajaxUrl = "ajax/profile/costs/";
 var datatableApi;
+var editTitleKey = "costs.edit";
 
 // $(document).ready(function () {
 function clearFilter() {
@@ -19,11 +20,21 @@ function updateTable() {
 
 $(function () {
     datatableApi = $("#datatable").DataTable({
+        "ajax": {
+            "url": ajaxUrl,
+            "dataSrc": ""
+        },
         "paging": false,
         "info": true,
         "columns": [
             {
-                "data": "dateTime"
+                "data": "dateTime",
+                "render": function (date, type, row) {
+                    if (type == 'display') {
+                        return date.replace('T', ' ').substr(0, 16);
+                    }
+                    return date;
+                }
             },
             {
                 "data": "description"
@@ -32,11 +43,13 @@ $(function () {
                 "data": "price"
             },
             {
-                "defaultContent": "Edit",
+                "render": renderEditBtn,
+                "defaultContent": "",
                 "orderable": false
             },
             {
-                "defaultContent": "Delete",
+                "render": renderDeleteBtn,
+                "defaultContent": "",
                 "orderable": false
             }
         ],
@@ -45,7 +58,10 @@ $(function () {
                 0,
                 "desc"
             ]
-        ]
+        ],
+        "createdRow": function (row, data, dataIndex) {
+            $(row).addClass(data.exceed ? 'exceeded' : 'normal');
+        },
+        "initComplete": makeEditable
     });
-    makeEditable();
 });
