@@ -1,8 +1,9 @@
 package moneyManager.web.user;
 
 import moneyManager.TestUtil;
-import moneyManager.model.Role;
 import moneyManager.model.User;
+import moneyManager.to.UserTo;
+import moneyManager.util.UserUtil;
 import moneyManager.web.AbstractControllerTest;
 import moneyManager.web.json.JsonUtil;
 import org.junit.Test;
@@ -44,13 +45,14 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        User updated = new User(USER_ID, "newName", "newemail@ya.ru", "newPassword", Role.ROLE_USER);
+        UserTo updatedTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword", 1500);
+
         mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER))
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        MATCHER.assertEquals(updated, new User(userService.getByEmail("newemail@ya.ru")));
+        MATCHER.assertEquals(UserUtil.updateFromTo(new User(USER), updatedTo), userService.getByEmail("newemail@ya.ru"));
     }
 }
