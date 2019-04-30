@@ -47,6 +47,21 @@ public class CostRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(REST_URL + ADMIN_COST_ID)
+                .with(userHttpBasic(USER)))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(REST_URL + ADMIN_COST_ID)
+                .with(userHttpBasic(USER)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + COST1_ID)
                 .with(userHttpBasic(USER)))
