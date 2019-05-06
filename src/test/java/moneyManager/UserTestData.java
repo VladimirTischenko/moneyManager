@@ -3,12 +3,17 @@ package moneyManager;
 import moneyManager.matcher.ModelMatcher;
 import moneyManager.model.Role;
 import moneyManager.model.User;
+import moneyManager.util.PasswordUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
 import static moneyManager.model.BaseEntity.START_SEQ;
 
 public class UserTestData {
+    private static final Logger LOG = LoggerFactory.getLogger(UserTestData.class);
+
     public static final int USER_ID = START_SEQ;
     public static final int ADMIN_ID = START_SEQ + 1;
 
@@ -17,7 +22,7 @@ public class UserTestData {
 
     public static final ModelMatcher<User> MATCHER = ModelMatcher.of(User.class,
             (expected, actual) -> expected == actual ||
-                    (Objects.equals(expected.getPassword(), actual.getPassword())
+                    (comparePassword(expected.getPassword(), actual.getPassword())
                             && Objects.equals(expected.getId(), actual.getId())
                             && Objects.equals(expected.getName(), actual.getName())
                             && Objects.equals(expected.getEmail(), actual.getEmail())
@@ -26,4 +31,14 @@ public class UserTestData {
                             && Objects.equals(expected.getRoles(), actual.getRoles())
                     )
     );
+
+    private static boolean comparePassword(String rawOrEncodedPassword, String password) {
+        if (PasswordUtil.isEncoded(rawOrEncodedPassword)) {
+            return rawOrEncodedPassword.equals(password);
+        } else if (!PasswordUtil.isMatch(rawOrEncodedPassword, password)) {
+            LOG.error("Password " + password + " doesn't match encoded " + password);
+            return false;
+        }
+        return true;
+    }
 }
