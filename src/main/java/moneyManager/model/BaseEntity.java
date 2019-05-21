@@ -1,8 +1,7 @@
 package moneyManager.model;
 
-import moneyManager.util.HasId;
+import moneyManager.HasId;
 import org.hibernate.Hibernate;
-import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 
@@ -19,7 +18,7 @@ public class BaseEntity implements HasId {
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = 100000)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     @Access(value = AccessType.PROPERTY)
-    protected Integer id;
+    private Integer id;
 
     BaseEntity() {
     }
@@ -36,11 +35,6 @@ public class BaseEntity implements HasId {
     @Override
     public Integer getId() {
         return id;
-    }
-
-    @Override
-    public boolean isNew() {
-        return (getId() == null);
     }
 
     @Override

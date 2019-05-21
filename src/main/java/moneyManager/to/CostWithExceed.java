@@ -7,9 +7,7 @@ import java.time.LocalDateTime;
 /**
  * Created by Vladimir on 26.07.2018.
  */
-public class CostWithExceed {
-    private final Integer id;
-
+public class CostWithExceed extends BaseTo{
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -23,15 +21,11 @@ public class CostWithExceed {
                           @JsonProperty("description") String description,
                           @JsonProperty("price") int price,
                           @JsonProperty("exceed") boolean exceed) {
-        this.id = id;
+        super(id);
         this.dateTime = dateTime;
         this.description = description;
         this.price = price;
         this.exceed = exceed;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public LocalDateTime getDateTime() {

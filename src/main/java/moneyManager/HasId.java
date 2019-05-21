@@ -1,4 +1,4 @@
-package moneyManager.util;
+package moneyManager;
 
 /**
  * Created by Vladimir on 29.04.2019.
@@ -8,5 +8,7 @@ public interface HasId {
 
     void setId(Integer id);
 
-    boolean isNew();
+    default boolean isNew() {
+        return (getId() == null);
+    }
 }

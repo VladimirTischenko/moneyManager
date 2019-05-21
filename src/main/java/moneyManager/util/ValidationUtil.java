@@ -1,5 +1,6 @@
 package moneyManager.util;
 
+import moneyManager.HasId;
 import moneyManager.util.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
