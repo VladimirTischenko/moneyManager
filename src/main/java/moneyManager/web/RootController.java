@@ -4,6 +4,7 @@ import moneyManager.AuthorizedUser;
 import moneyManager.to.UserTo;
 import moneyManager.util.UserUtil;
 import moneyManager.web.user.AbstractUserController;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,14 +45,17 @@ public class RootController extends AbstractUserController {
 
     @PostMapping("/profile")
     public String updateProfile(@Valid UserTo userTo, BindingResult result, SessionStatus status) {
-        if (result.hasErrors()) {
-            return "profile";
-        } else {
-            super.update(userTo, AuthorizedUser.id());
-            AuthorizedUser.get().update(userTo);
-            status.setComplete();
-            return "redirect:costs";
+        if (!result.hasErrors()) {
+            try {
+                super.update(userTo, AuthorizedUser.id());
+                AuthorizedUser.get().update(userTo);
+                status.setComplete();
+                return "redirect:costs";
+            } catch (DataIntegrityViolationException ex) {
+                result.rejectValue("email", "exception.users.duplicate_email");
+            }
         }
+        return "profile";
     }
 
     @GetMapping("/register")
@@ -63,13 +67,16 @@ public class RootController extends AbstractUserController {
 
     @PostMapping("/register")
     public String saveRegister(@Valid UserTo userTo, BindingResult result, SessionStatus status, ModelMap model) {
-        if (result.hasErrors()) {
-            model.addAttribute("register", true);
-            return "profile";
-        } else {
-            super.create(UserUtil.createNewFromTo(userTo));
-            status.setComplete();
-            return "redirect:login?message=app.registered&username=" + userTo.getEmail();
+        if (!result.hasErrors()) {
+            try {
+                super.create(UserUtil.createNewFromTo(userTo));
+                status.setComplete();
+                return "redirect:login?message=app.registered&username=" + userTo.getEmail();
+            } catch (DataIntegrityViolationException ex) {
+                result.rejectValue("email", "exception.users.duplicate_email");
+            }
         }
+        model.addAttribute("register", true);
+        return "profile";
     }
 }
