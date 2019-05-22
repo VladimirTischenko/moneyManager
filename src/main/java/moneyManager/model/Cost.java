@@ -44,7 +44,7 @@ public class Cost extends BaseEntity {
     @Column(name = "price", nullable = false)
     @Range(min = 10, max = 5000)
     @NotNull
-    private int price;
+    private Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,12 +44,12 @@ public class CostRestController extends AbstractCostController{
 
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Cost cost, @PathVariable("id") int id) {
+    public void update(@Valid @RequestBody Cost cost, @PathVariable("id") int id) {
         super.update(cost, id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Cost> createWithLocation(@RequestBody Cost cost) {
+    public ResponseEntity<Cost> createWithLocation(@Valid @RequestBody Cost cost) {
         Cost created = super.create(cost);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

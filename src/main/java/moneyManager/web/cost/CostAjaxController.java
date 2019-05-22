@@ -2,11 +2,7 @@ package moneyManager.web.cost;
 
 import moneyManager.model.Cost;
 import moneyManager.to.CostWithExceed;
-import moneyManager.util.ValidationUtil;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,16 +35,12 @@ public class CostAjaxController extends AbstractCostController {
     }
 
     @PostMapping
-    public ResponseEntity<String> updateOrCreate(@Valid Cost cost, BindingResult result) {
-        if (result.hasErrors()) {
-            return ValidationUtil.getErrorResponse(result);
-        }
+    public void updateOrCreate(@Valid Cost cost) {
         if (cost.isNew()) {
             super.create(cost);
         } else {
             super.update(cost, cost.getId());
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
