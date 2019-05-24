@@ -1,5 +1,7 @@
 package moneyManager.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import moneyManager.View;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -41,6 +43,7 @@ public class User extends NamedEntity {
     @Column(name = "password", nullable = false)
     @NotBlank
     @Length(min = 5)
+    @JsonView(View.REST.class)
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
