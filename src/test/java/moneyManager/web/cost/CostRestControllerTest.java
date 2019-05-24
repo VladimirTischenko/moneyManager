@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -62,6 +63,7 @@ public class CostRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + COST1_ID)
                 .with(userHttpBasic(USER)))
@@ -70,6 +72,7 @@ public class CostRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
     public void testUpdate() throws Exception {
         Cost updated = getUpdated();
 
@@ -94,6 +97,7 @@ public class CostRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
     public void testCreate() throws Exception {
         Cost created = getCreated();
         ResultActions action = mockMvc.perform(post(REST_URL)
@@ -161,5 +165,27 @@ public class CostRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
                         CostsUtil.getWithExceeded(Arrays.asList(COST6, COST5, COST4, COST3, COST2, COST1), USER.getSumPerDay())));
+    }
+
+    @Test
+    public void testUpdateDuplicate() throws Exception {
+        Cost invalid = new Cost(COST1_ID, COST2.getDateTime(), "Dummy", 200);
+        mockMvc.perform(put(REST_URL + COST1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(USER)))
+                .andDo(print())
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void testCreateDuplicate() throws Exception {
+        Cost invalid = new Cost(null, ADMIN_COST1.getDateTime(), "Dummy", 200);
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isConflict());
     }
 }
