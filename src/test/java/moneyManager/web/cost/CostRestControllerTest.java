@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static moneyManager.CostTestData.*;
@@ -88,6 +89,17 @@ public class CostRestControllerTest extends AbstractControllerTest {
     @Test
     public void testUpdateInvalid() throws Exception {
         Cost invalid = new Cost(COST1_ID, null, null, 6000);
+        mockMvc.perform(put(REST_URL + COST1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(USER)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void testUpdateHtmlUnsafe() throws Exception {
+        Cost invalid = new Cost(COST1_ID, LocalDateTime.now(), "<script>alert(123)</script>", 200);
         mockMvc.perform(put(REST_URL + COST1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid))
