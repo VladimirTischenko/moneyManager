@@ -1,12 +1,19 @@
 package moneyManager.web.user;
 
+import moneyManager.Profiles;
+import moneyManager.model.BaseEntity;
 import moneyManager.model.User;
 import moneyManager.service.UserService;
 import moneyManager.to.UserTo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.env.Environment;
 
+import javax.validation.ValidationException;
+import java.util.Arrays;
 import java.util.List;
 
 import static moneyManager.util.ValidationUtil.checkIdConsistent;
@@ -20,6 +27,22 @@ public class AbstractUserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private MessageSource messageSource;
+
+    private boolean systemUserForbiddenModification;
+
+    @Autowired
+    public void setEnvironment(Environment environment) {
+        systemUserForbiddenModification = Arrays.asList(environment.getActiveProfiles()).contains(Profiles.HEROKU);
+    }
+
+    public void checkModificationAllowed(Integer id) {
+        if (systemUserForbiddenModification && id < BaseEntity.START_SEQ + 2) {
+            throw new ValidationException(messageSource.getMessage("user.modificationRestriction", null, LocaleContextHolder.getLocale()));
+        }
+    }
 
     public List<User> getAll() {
         log.info("getAll");
@@ -39,18 +62,21 @@ public class AbstractUserController {
 
     public void delete(int id) {
         log.info("delete " + id);
+        checkModificationAllowed(id);
         service.delete(id);
     }
 
     public void update(User user, int id) {
-        checkIdConsistent(user, id);
         log.info("update " + user);
+        checkIdConsistent(user, id);
+        checkModificationAllowed(id);
         service.update(user);
     }
 
     public void update(UserTo userTo, int id) {
         log.info("update " + userTo);
         checkIdConsistent(userTo, id);
+        checkModificationAllowed(userTo.getId());
         service.update(userTo);
     }
 
@@ -60,6 +86,7 @@ public class AbstractUserController {
     }
 
     public void enable(int id, boolean enabled) {
+        checkModificationAllowed(id);
         log.info((enabled ? "enable " : "disable ") + id);
         service.enable(id, enabled);
     }
